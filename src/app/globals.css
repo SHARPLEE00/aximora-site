@@ -1,26 +1,125 @@
 @import "tailwindcss";
 
+/* ================================================
+   AXIMORA DESIGN SYSTEM v2
+   Principle: Restraint is luxury. Every pixel earns its place.
+   ================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Palette — 5 values only */
+  --black: #060606;
+  --surface: #0e0e0e;
+  --border: rgba(255,255,255,0.06);
+  --text: rgba(255,255,255,0.88);
+  --muted: rgba(255,255,255,0.35);
+  --faint: rgba(255,255,255,0.12);
+  --accent: #E8722A;
+  --accent-soft: rgba(232,114,42,0.15);
+
+  /* Type scale — modular, clamp-based */
+  --display: clamp(2.2rem, 7.5vw, 7.5rem);
+  --h1: clamp(2.4rem, 6vw, 5rem);
+  --h2: clamp(1.8rem, 4vw, 3.2rem);
+  --h3: clamp(1.2rem, 2vw, 1.5rem);
+  --body: clamp(0.95rem, 1.1vw, 1.1rem);
+  --caption: 0.7rem;
+  --label: 0.65rem;
+
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+  --space-2xl: 12rem;
+  --space-3xl: 16rem;
+
+  /* Motion */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 0.8s;
+  --duration-fast: 0.4s;
+  --duration-slow: 1.2s;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-black: var(--black);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Reset */
+*, *::before, *::after { cursor: none; }
+a, button, [role="button"] { cursor: none; }
+
+html {
+  background: var(--black);
+  scroll-behavior: auto; /* Lenis handles this */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--black);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--black);
+}
+
+/* Utility: label style */
+.label {
+  font-size: var(--label);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Utility: divider */
+.divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.divider-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.4;
+}
+
+/* Grain overlay — subtler */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Video overlay pattern */
+.video-vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, var(--black) 100%);
+  pointer-events: none;
 }
