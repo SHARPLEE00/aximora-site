@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { CDN_BASE } from "../lib/cdn";
 
 export default function VideoBackground({
   src,
@@ -19,6 +20,9 @@ export default function VideoBackground({
     if (ref.current) ref.current.playbackRate = 0.8;
   }, []);
 
+  // If src starts with /videos/, prepend CDN base
+  const videoSrc = src.startsWith("/videos/") ? `${CDN_BASE}${src}` : src;
+
   return (
     <div className={`absolute inset-0 overflow-hidden ${vignette ? "video-vignette" : ""} ${className}`}>
       <video
@@ -27,10 +31,11 @@ export default function VideoBackground({
         muted
         loop
         playsInline
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover scale-105"
         style={{ filter: "saturate(0.85)" }}
       >
-        <source src={src} type="video/mp4" />
+        <source src={videoSrc} type="video/mp4" />
       </video>
       <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, rgba(6,6,6,${overlay * 0.6}), rgba(6,6,6,${overlay}))` }} />
     </div>
